@@ -26,8 +26,8 @@ public class AthleteDataRetriever {
 
         String[] routes = new String[activityList.size()];
 
-        for (int i = 0; i < activityList.size(); i++) {
-            routes[i] = activityList.get(i).getMap().getPolyline();
+        for (int i = 0; i < routes.length; i++) {
+            routes[i] = activityList.get(i).getMap().getSummaryPolyline();
         }
 
         return routes;
