@@ -5,6 +5,7 @@ import javastrava.model.StravaAthlete;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
@@ -22,12 +23,16 @@ public class AthleteDataRetriever {
     }
 
     public String[] getAthleteRoutes() {
-        List<StravaActivity> activityList = apiBuilder.build().listAllAuthenticatedAthleteActivities();
+        List<Long> activitiesId = new ArrayList<>();
 
-        String[] routes = new String[activityList.size()];
+        for (StravaActivity activity : apiBuilder.build().listAllAuthenticatedAthleteActivities()) {
+            activitiesId.add(activity.getId());
+        }
+
+        String[] routes = new String[activitiesId.size()];
 
         for (int i = 0; i < routes.length; i++) {
-            routes[i] = activityList.get(i).getMap().getSummaryPolyline();
+            routes[i] =  apiBuilder.build().getActivity(activitiesId.get(i)).getMap().getPolyline();
         }
 
         return routes;
